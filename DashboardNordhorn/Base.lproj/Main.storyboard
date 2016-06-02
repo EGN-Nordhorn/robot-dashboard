@@ -738,6 +738,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="airTemp" destination="b5H-Q6-LSB" id="Ft6-Yg-5dk"/>
                         <outlet property="bluetoothStateView" destination="h5O-bN-U5g" id="fgH-lU-mY1"/>
                         <outlet property="humidityView" destination="bR9-iY-bH0" id="GEo-KF-s4J"/>
                         <outlet property="metalContent" destination="tNj-bf-H1T" id="79T-vX-uYY"/>
@@ -768,7 +769,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eK5-A4-fEd" id="fJj-os-fGb">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKn-si-chY">

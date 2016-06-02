@@ -17,9 +17,12 @@
 @property (weak, nonatomic) IBOutlet KNCirclePercentView *moisture;
 @property (weak, nonatomic) IBOutlet KNCirclePercentView *metalContent;
 
+@property (weak, nonatomic) IBOutlet UILabel *airTemp;
 
 @property (weak, nonatomic) IBOutlet CircleView *bluetoothStateView;
 @property (strong, nonatomic) SerialGATT* serialGatt;
+
+@property(strong, nonatomic) NSMutableData* receivedData;
 
 
 @property(strong, nonatomic) CBPeripheral* remoteRobot;
@@ -30,6 +33,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.receivedData = [[NSMutableData alloc] init];
+
+
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"UserDidSelectDevice"
                                                       object:nil
@@ -129,6 +135,16 @@
 }
 
 
+
+-(void) updateAirTemp:(CGFloat) tempAir{
+    int temp = tempAir;
+    self.airTemp.text = [NSString stringWithFormat:@"%d", temp];
+    
+}
+
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -146,12 +162,42 @@
 }
 
 
+-(void) updateStatus:(NSString*) csvString{
+    NSArray* comps = [csvString componentsSeparatedByString:@","];
+    if (comps.count != 6){
+        NSLog(@"Invalid format.");
+    } else {
+        float tempAir = [comps[0] floatValue];
+        float humidy = [comps[4] floatValue];
+        [self updateHumidiy:humidy];
+        [self updateAirTemp:tempAir];
+        
+    }
+    
+}
+
 #pragma - Bluetooth
 
 - (void) serialGATTCharValueUpdated: (NSString *)UUID value: (NSData *)data{
-    NSString* stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Data is %@", stringData);
-    [self updateHumidiy:stringData.floatValue];
+    [self.receivedData appendData:data];
+    
+    UInt8 bytes_to_find[] = { 0x0D, 0x0A };
+    NSData *dataToFind = [NSData dataWithBytes:bytes_to_find
+                                        length:sizeof(bytes_to_find)];
+    
+    NSRange rangeOfData = [data rangeOfData:dataToFind options:0 range:NSMakeRange(0, data.length)];
+    
+    if (rangeOfData.location != NSNotFound) {
+        NSLog(@"Find the end");
+        NSString* stringData = [[NSString alloc] initWithData:[self.receivedData copy] encoding:NSUTF8StringEncoding];
+        [self updateStatus:stringData];
+        [self.receivedData setLength:0];
+        NSLog(@"%@", stringData);
+    }
+    
+    
+    
+//    [self updateHumidiy:stringData.floatValue];
 }
 - (void) setConnect{
     self.bluetoothStateView.backgroundColor = [UIColor greenColor];
