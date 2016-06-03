@@ -19,13 +19,20 @@
 
 @interface ViewController ()<BTSmartSensorDelegate>
 
+//Start UI outlets.
 @property (weak, nonatomic) IBOutlet KNCirclePercentView *humidityView;
 @property (weak, nonatomic) IBOutlet KNCirclePercentView *moisture;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *airTemp;
+@property (weak, nonatomic) IBOutlet UILabel *groundTemp;
 
+
+@property (weak, nonatomic) IBOutlet CircleView *gasAlertView;
 @property (weak, nonatomic) IBOutlet CircleView *bluetoothStateView;
+
+
+//End UI outlets
 @property (strong, nonatomic) SerialGATT* serialGatt;
 
 @property(strong, nonatomic) NSMutableData* receivedData;
@@ -83,7 +90,7 @@
     
     [self.humidityView drawCircleWithPercent:67
                                     duration:2
-                                   lineWidth:15
+                                   lineWidth:20
                                    clockwise:YES
                                      lineCap:kCALineCapRound
                                    fillColor:[UIColor clearColor]
@@ -143,15 +150,27 @@
 }
 
 
+
+//void sendCSVData(float tempAir, float moisture, int gasAlert, float tempGround,float humidity, float direction)
+
 -(void) updateStatus:(NSString*) csvString{
     NSArray* comps = [csvString componentsSeparatedByString:@","];
     if (comps.count != 6){
         NSLog(@"Invalid format.");
     } else {
         float tempAir = [comps[0] floatValue];
+        float moisture = [comps[1] floatValue];
+        int gasAlert = [comps[2] floatValue];
+        float tempGround = [comps[3] floatValue];
         float humidy = [comps[4] floatValue];
+        float direction = [comps[5] floatValue];
+        
         [self updateHumidiy:humidy];
+        [self updateMosiure:moisture];
         [self updateAirTemp:tempAir];
+        [self updateGasAlert:gasAlert];
+        [self updateGroundTemp:tempGround];
+        NSLog(@"%f, %f, %d, %f, %f, %f", tempAir, moisture, gasAlert, tempGround, humidy, direction);
         
     }
     
@@ -193,7 +212,7 @@
 -(void) updateHumidiy:(CGFloat) percentagte{
     [self.humidityView drawCircleWithPercent:percentagte
                                     duration:0.1
-                                   lineWidth:15
+                                   lineWidth:20
                                    clockwise:YES
                                      lineCap:kCALineCapRound
                                    fillColor:[UIColor clearColor]
@@ -209,6 +228,39 @@
     
 }
 
+-(void) updateGroundTemp:(CGFloat) tempGround {
+    int temp = tempGround;
+    self.groundTemp.text = [NSString stringWithFormat:@"%d", temp];
+    
+}
+
+
+-(void) updateMosiure:(CGFloat) percentagte {
+    
+    [self.moisture drawCircleWithPercent:percentagte
+                                    duration:0.1
+                                   lineWidth:20
+                                   clockwise:YES
+                                     lineCap:kCALineCapRound
+                                   fillColor:[UIColor clearColor]
+                                 strokeColor:[UIColor colorWithRed:0.13f green:0.6f blue:0.83f alpha:1]
+                              animatedColors:nil];
+}
+
+
+/**
+ *  Update the gas alert value.
+ *
+ *  @param gasAlert The value could be from 0 - 3v
+ */
+-(void) updateGasAlert:(int) gasAlert {
+    
+    if (gasAlert >= 2){
+        self.gasAlertView.backgroundColor = GREEN_COLOR;
+    } else {
+       self.gasAlertView.backgroundColor = RED_COLOR;
+    }
+}
 
 
 
