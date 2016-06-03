@@ -12,10 +12,16 @@
 #import "SerialGATT.h"
 #import "CircleView.h"
 
+
+#define GREEN_COLOR [UIColor colorWithRed:0.14 green:0.73 blue:0.41 alpha:1]
+#define RED_COLOR   [UIColor colorWithRed:0.87 green:0.18 blue:0.28 alpha:1]
+
+
 @interface ViewController ()<BTSmartSensorDelegate>
+
 @property (weak, nonatomic) IBOutlet KNCirclePercentView *humidityView;
 @property (weak, nonatomic) IBOutlet KNCirclePercentView *moisture;
-@property (weak, nonatomic) IBOutlet KNCirclePercentView *metalContent;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *airTemp;
 
@@ -26,6 +32,9 @@
 
 
 @property(strong, nonatomic) CBPeripheral* remoteRobot;
+
+@property (assign, nonatomic) BOOL isFirstTime;
+
 @end
 
 @implementation ViewController
@@ -33,9 +42,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.isFirstTime = YES;
     self.receivedData = [[NSMutableData alloc] init];
-
-
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"UserDidSelectDevice"
                                                       object:nil
@@ -48,23 +56,29 @@
                                                       
     }];
     
-    self.bluetoothStateView.backgroundColor = [UIColor redColor];
+    self.bluetoothStateView.backgroundColor = RED_COLOR;
     
         // Do any additional setup after loading the view, typically from a nib.
-    
+   
   
 }
 
 -(void) viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-      [self drawChart];
+    if (self.isFirstTime){
+        self.isFirstTime = NO;
+        [self performSegueWithIdentifier:@"bluetooth" sender:nil];
+    }
+    
+    
+    [self drawChart];
 }
 
 
 -(void) drawChart{
     self.humidityView.backgroundColor = [UIColor clearColor];
     self.moisture.backgroundColor = [UIColor clearColor];
-    self.metalContent.backgroundColor = [UIColor clearColor];
+    
     
     
     [self.humidityView drawCircleWithPercent:67
@@ -99,48 +113,15 @@
     
     
     
-    [self.metalContent drawCircleWithPercent:13
-                                    duration:2
-                                   lineWidth:15
-                                   clockwise:YES
-                                     lineCap:kCALineCapRound
-                                   fillColor:[UIColor clearColor]
-                                 strokeColor:[UIColor orangeColor]
-                              animatedColors:nil];
     
     
     
-    
-    
-    self.metalContent.percentLabel.font = [UIFont systemFontOfSize:20];
-    self.metalContent.percentLabel.textColor = [UIColor whiteColor];
-    
-    
-    [self.metalContent startAnimation];
     [self.humidityView startAnimation];
     [self.moisture startAnimation];
 }
 
 
 
--(void) updateHumidiy:(CGFloat) percentagte{
-    [self.humidityView drawCircleWithPercent:percentagte
-                                    duration:0.1
-                                   lineWidth:15
-                                   clockwise:YES
-                                     lineCap:kCALineCapRound
-                                   fillColor:[UIColor clearColor]
-                                 strokeColor:[UIColor colorWithRed:0.13f green:0.6f blue:0.83f alpha:1]
-                              animatedColors:nil];
-}
-
-
-
--(void) updateAirTemp:(CGFloat) tempAir{
-    int temp = tempAir;
-    self.airTemp.text = [NSString stringWithFormat:@"%d", temp];
-    
-}
 
 
 
@@ -200,11 +181,38 @@
 //    [self updateHumidiy:stringData.floatValue];
 }
 - (void) setConnect{
-    self.bluetoothStateView.backgroundColor = [UIColor greenColor];
+    self.bluetoothStateView.backgroundColor = GREEN_COLOR;
 }
 - (void) setDisconnect{
-    self.bluetoothStateView.backgroundColor = [UIColor redColor];
+    self.bluetoothStateView.backgroundColor = RED_COLOR;
 }
+
+#pragma mark - Update status
+
+
+-(void) updateHumidiy:(CGFloat) percentagte{
+    [self.humidityView drawCircleWithPercent:percentagte
+                                    duration:0.1
+                                   lineWidth:15
+                                   clockwise:YES
+                                     lineCap:kCALineCapRound
+                                   fillColor:[UIColor clearColor]
+                                 strokeColor:[UIColor colorWithRed:0.13f green:0.6f blue:0.83f alpha:1]
+                              animatedColors:nil];
+}
+
+
+
+-(void) updateAirTemp:(CGFloat) tempAir{
+    int temp = tempAir;
+    self.airTemp.text = [NSString stringWithFormat:@"%d", temp];
+    
+}
+
+
+
+
+
 
 
 @end
