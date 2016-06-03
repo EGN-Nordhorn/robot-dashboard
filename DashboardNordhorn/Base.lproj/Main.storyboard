@@ -77,45 +77,6 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bR9-iY-bH0" customClass="KNCirclePercentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Moisture" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZ9-KA-tSs">
-                                                <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                                <variation key="widthClass=regular" fixedFrame="YES">
-                                                    <rect key="frame" x="18" y="56" width="164" height="21"/>
-                                                </variation>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="180" id="8mu-oo-etw">
-                                                <variation key="widthClass=regular" constant="190"/>
-                                            </constraint>
-                                            <constraint firstAttribute="width" secondItem="bR9-iY-bH0" secondAttribute="height" multiplier="1:1" id="JBo-OE-LBo"/>
-                                        </constraints>
-                                        <variation key="default">
-                                            <mask key="subviews">
-                                                <exclude reference="tZ9-KA-tSs"/>
-                                            </mask>
-                                            <mask key="constraints">
-                                                <exclude reference="8mu-oo-etw"/>
-                                                <exclude reference="JBo-OE-LBo"/>
-                                            </mask>
-                                        </variation>
-                                        <variation key="widthClass=regular">
-                                            <mask key="subviews">
-                                                <include reference="tZ9-KA-tSs"/>
-                                            </mask>
-                                            <mask key="constraints">
-                                                <include reference="8mu-oo-etw"/>
-                                                <include reference="JBo-OE-LBo"/>
-                                            </mask>
-                                        </variation>
-                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zzt-mj-agZ" customClass="CircleView">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                         <subviews>
@@ -177,17 +138,67 @@
                                             </mask>
                                         </variation>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bR9-iY-bH0" customClass="CircleView">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Moisture" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZ9-KA-tSs">
+                                                <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="widthClass=regular" fixedFrame="YES">
+                                                    <rect key="frame" x="0.0" y="58" width="190" height="21"/>
+                                                </variation>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="456" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j3e-zf-SWy">
+                                                <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <variation key="widthClass=regular" fixedFrame="YES">
+                                                    <rect key="frame" x="0.0" y="105" width="190" height="21"/>
+                                                </variation>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.12941176469999999" green="0.76470588240000004" blue="0.48627450979999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="180" id="8mu-oo-etw">
+                                                <variation key="widthClass=regular" constant="190"/>
+                                            </constraint>
+                                            <constraint firstAttribute="width" secondItem="bR9-iY-bH0" secondAttribute="height" multiplier="1:1" id="JBo-OE-LBo"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="subviews">
+                                                <exclude reference="tZ9-KA-tSs"/>
+                                                <exclude reference="j3e-zf-SWy"/>
+                                            </mask>
+                                            <mask key="constraints">
+                                                <exclude reference="8mu-oo-etw"/>
+                                                <exclude reference="JBo-OE-LBo"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="widthClass=regular">
+                                            <mask key="subviews">
+                                                <include reference="tZ9-KA-tSs"/>
+                                                <include reference="j3e-zf-SWy"/>
+                                            </mask>
+                                            <mask key="constraints">
+                                                <include reference="8mu-oo-etw"/>
+                                                <include reference="JBo-OE-LBo"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.12549019610000001" green="0.12549019610000001" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="Zzt-mj-agZ" firstAttribute="leading" secondItem="jax-MI-Lac" secondAttribute="leading" constant="81" id="228-4G-wWu"/>
                                     <constraint firstItem="ibN-5c-GO4" firstAttribute="top" secondItem="jax-MI-Lac" secondAttribute="top" id="4yy-j3-yAa"/>
                                     <constraint firstAttribute="bottom" secondItem="bR9-iY-bH0" secondAttribute="bottom" constant="-3" id="G2V-eK-Uec">
-                                        <variation key="widthClass=regular" constant="70"/>
+                                        <variation key="widthClass=regular" constant="21"/>
                                     </constraint>
                                     <constraint firstAttribute="trailing" secondItem="ibN-5c-GO4" secondAttribute="trailing" id="Rte-WC-Pp8"/>
                                     <constraint firstItem="bR9-iY-bH0" firstAttribute="leading" secondItem="jax-MI-Lac" secondAttribute="leading" constant="8" id="eMg-sA-8am">
-                                        <variation key="widthClass=regular" constant="20"/>
+                                        <variation key="widthClass=regular" constant="178"/>
                                     </constraint>
                                     <constraint firstItem="ibN-5c-GO4" firstAttribute="leading" secondItem="jax-MI-Lac" secondAttribute="leading" id="jNW-kT-xOu"/>
                                     <constraint firstItem="Zzt-mj-agZ" firstAttribute="top" secondItem="ibN-5c-GO4" secondAttribute="bottom" constant="20" id="rTA-jv-Xej"/>
@@ -201,8 +212,8 @@
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="ibN-5c-GO4"/>
-                                        <exclude reference="bR9-iY-bH0"/>
                                         <exclude reference="Zzt-mj-agZ"/>
+                                        <exclude reference="bR9-iY-bH0"/>
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="228-4G-wWu"/>
@@ -217,8 +228,8 @@
                                 <variation key="widthClass=regular">
                                     <mask key="subviews">
                                         <include reference="ibN-5c-GO4"/>
-                                        <include reference="bR9-iY-bH0"/>
                                         <include reference="Zzt-mj-agZ"/>
+                                        <include reference="bR9-iY-bH0"/>
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="228-4G-wWu"/>
@@ -651,7 +662,8 @@
                         <outlet property="gasAlertView" destination="C76-Z3-G9I" id="Qq7-wd-hGG"/>
                         <outlet property="groundTemp" destination="4wr-Nx-mu6" id="wdp-MK-tPa"/>
                         <outlet property="humidityView" destination="gd8-tK-HDA" id="fUV-6T-cOD"/>
-                        <outlet property="moisture" destination="bR9-iY-bH0" id="Fdj-XR-xel"/>
+                        <outlet property="lblMositure" destination="j3e-zf-SWy" id="aN7-WR-dxr"/>
+                        <outlet property="mositure" destination="bR9-iY-bH0" id="E5g-7j-R65"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

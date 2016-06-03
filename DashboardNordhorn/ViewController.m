@@ -15,18 +15,21 @@
 
 #define GREEN_COLOR [UIColor colorWithRed:0.14 green:0.73 blue:0.41 alpha:1]
 #define RED_COLOR   [UIColor colorWithRed:0.87 green:0.18 blue:0.28 alpha:1]
+#define YELLOW_COLOR [UIColor colorWithRed:0.87 green:0.82 blue:0.16 alpha:1]
 
 
 @interface ViewController ()<BTSmartSensorDelegate>
 
 //Start UI outlets.
 @property (weak, nonatomic) IBOutlet KNCirclePercentView *humidityView;
-@property (weak, nonatomic) IBOutlet KNCirclePercentView *moisture;
 
+
+@property (weak, nonatomic) IBOutlet UILabel *lblMositure;
 
 @property (weak, nonatomic) IBOutlet UILabel *airTemp;
 @property (weak, nonatomic) IBOutlet UILabel *groundTemp;
 
+@property (weak, nonatomic) IBOutlet CircleView *mositure;
 
 @property (weak, nonatomic) IBOutlet CircleView *gasAlertView;
 @property (weak, nonatomic) IBOutlet CircleView *bluetoothStateView;
@@ -84,7 +87,7 @@
 
 -(void) drawChart{
     self.humidityView.backgroundColor = [UIColor clearColor];
-    self.moisture.backgroundColor = [UIColor clearColor];
+    
     
     
     
@@ -103,28 +106,9 @@
     
     
     
-    [self.moisture drawCircleWithPercent:65
-                                duration:2
-                               lineWidth:20
-                               clockwise:YES
-                                 lineCap:kCALineCapRound
-                               fillColor:[UIColor clearColor]
-                             strokeColor:[UIColor colorWithRed:0.13f green:0.6f blue:0.83f alpha:1]
-                          animatedColors:nil];
-    
-    
-    
-    self.moisture.percentLabel.font = [UIFont systemFontOfSize:20];
-    self.moisture.percentLabel.textColor = [UIColor whiteColor];
-    
-    
-    
-    
-    
     
     
     [self.humidityView startAnimation];
-    [self.moisture startAnimation];
 }
 
 
@@ -235,16 +219,18 @@
 }
 
 
--(void) updateMosiure:(CGFloat) percentagte {
+-(void) updateMosiure:(CGFloat) moisture {
     
-    [self.moisture drawCircleWithPercent:percentagte
-                                    duration:0.1
-                                   lineWidth:20
-                                   clockwise:YES
-                                     lineCap:kCALineCapRound
-                                   fillColor:[UIColor clearColor]
-                                 strokeColor:[UIColor colorWithRed:0.13f green:0.6f blue:0.83f alpha:1]
-                              animatedColors:nil];
+    int temp = moisture;
+    
+    self.lblMositure.text = [NSString stringWithFormat:@"%d", temp];
+    if (moisture < 250){
+        self.mositure.backgroundColor = GREEN_COLOR;
+    } else if (moisture > 250 && moisture < 500){
+        self.mositure.backgroundColor = YELLOW_COLOR;
+    } else if (moisture > 500) {
+        self.mositure.backgroundColor = RED_COLOR;
+    }
 }
 
 
@@ -255,7 +241,7 @@
  */
 -(void) updateGasAlert:(int) gasAlert {
     
-    if (gasAlert >= 2){
+    if (gasAlert >2){
         self.gasAlertView.backgroundColor = GREEN_COLOR;
     } else {
        self.gasAlertView.backgroundColor = RED_COLOR;
