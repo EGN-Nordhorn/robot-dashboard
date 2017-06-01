@@ -6,7 +6,12 @@
 //  Copyright © 2016 SAP SE. All rights reserved.
 //
 
+
 #import "AppDelegate.h"
+
+@import HockeySDK;
+
+
 
 @interface AppDelegate ()
 
@@ -16,7 +21,15 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"334a6a5800f74f849566ae67bff0da36"];
+    // Do some additional configuration if needed here
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator
+     authenticateInstallation];
+
+
+    
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     return YES;
 }
