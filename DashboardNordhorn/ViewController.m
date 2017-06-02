@@ -154,6 +154,7 @@
         [self updateAirTemp:tempAir];
         [self updateGasAlert:gasAlert];
         [self updateGroundTemp:tempGround];
+        NSLog(@"Status is : ");
         NSLog(@"%f, %f, %d, %f, %f, %f", tempAir, moisture, gasAlert, tempGround, humidy, direction);
         
     }
@@ -164,6 +165,10 @@
 
 - (void) serialGATTCharValueUpdated: (NSString *)UUID value: (NSData *)data{
     [self.receivedData appendData:data];
+    
+    NSString* displayString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"Dispay %@", displayString);
     
     UInt8 bytes_to_find[] = { 0x0D, 0x0A };
     NSData *dataToFind = [NSData dataWithBytes:bytes_to_find
