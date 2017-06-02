@@ -38,7 +38,6 @@
 //End UI outlets
 @property (strong, nonatomic) SerialGATT* serialGatt;
 
-@property(strong, nonatomic) NSMutableData* receivedData;
 
 
 @property(strong, nonatomic) CBPeripheral* remoteRobot;
@@ -53,7 +52,7 @@
     [super viewDidLoad];
     
     self.isFirstTime = YES;
-    self.receivedData = [[NSMutableData alloc] init];
+
     
     [[NSNotificationCenter defaultCenter] addObserverForName:@"UserDidSelectDevice"
                                                       object:nil
@@ -137,6 +136,35 @@
 
 //void sendCSVData(float tempAir, float moisture, int gasAlert, float tempGround,float humidity, float direction)
 
+
+-(void) updateStatusWithNewString: (NSString*) statusString {
+    
+    NSLog(@"Status string is %@", statusString);
+    NSArray* comps = [statusString componentsSeparatedByString:@"/"];
+    
+    NSLog(@"Comps is %lu", (unsigned long)comps.count);
+    if (comps.count == 5) {
+        
+        NSLog(@"corrent format!");
+        float tempAir = [comps[0] floatValue];
+        float humidy = [comps[1] floatValue];
+        float tempGround = [comps[2] floatValue];
+        float moisture = [comps[3] floatValue];
+        int gasAlert = [comps[4] floatValue];
+        
+        [self updateHumidiy:humidy];
+        [self updateMosiure:moisture];
+        [self updateAirTemp:tempAir];
+        [self updateGasAlert:gasAlert];
+        [self updateGroundTemp:tempGround];
+        
+        NSLog(@"Status is  %f, %f, %d, %f, %f", tempAir, moisture, gasAlert, tempGround, humidy);
+        
+    }
+}
+
+
+
 -(void) updateStatus:(NSString*) csvString{
     NSArray* comps = [csvString componentsSeparatedByString:@","];
     if (comps.count != 6){
@@ -164,25 +192,26 @@
 #pragma - Bluetooth
 
 - (void) serialGATTCharValueUpdated: (NSString *)UUID value: (NSData *)data{
-    [self.receivedData appendData:data];
     
     NSString* displayString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    [self updateStatusWithNewString:displayString];
     
-    NSLog(@"Dispay %@", displayString);
-    
-    UInt8 bytes_to_find[] = { 0x0D, 0x0A };
-    NSData *dataToFind = [NSData dataWithBytes:bytes_to_find
-                                        length:sizeof(bytes_to_find)];
-    
-    NSRange rangeOfData = [data rangeOfData:dataToFind options:0 range:NSMakeRange(0, data.length)];
-    
-    if (rangeOfData.location != NSNotFound) {
-        NSLog(@"Find the end");
-        NSString* stringData = [[NSString alloc] initWithData:[self.receivedData copy] encoding:NSUTF8StringEncoding];
-        [self updateStatus:stringData];
-        [self.receivedData setLength:0];
-        NSLog(@"%@", stringData);
-    }
+//    NSLog(@"Dispay %@", displayString);
+//    
+//    
+//    
+//    UInt8 bytes_to_find[] = { 0x0D, 0x0A };
+//    NSData *dataToFind = [NSData dataWithBytes:bytes_to_find
+//                                        length:sizeof(bytes_to_find)];
+//    
+//    NSRange rangeOfData = [data rangeOfData:dataToFind options:0 range:NSMakeRange(0, data.length)];
+//    
+//    if (rangeOfData.location != NSNotFound) {
+//        NSLog(@"Find the end");
+//        NSString* stringData = [[NSString alloc] initWithData:[self.receivedData copy] encoding:NSUTF8StringEncoding];
+//        [self updateStatus:stringData];
+//        NSLog(@"%@", stringData);
+//    }
     
     
     
